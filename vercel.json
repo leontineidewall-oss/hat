@@ -1,0 +1,5 @@
+{
+  "cleanUrls": true,
+  "functions": { "api/round.js": { "maxDuration": 60 }, "api/check.js": { "maxDuration": 20 } },
+  "headers": [{ "source": "/(.*)", "headers": [{ "key": "x-content-type-options", "value": "nosniff" }, { "key": "referrer-policy", "value": "strict-origin-when-cross-origin" }] }]
+}

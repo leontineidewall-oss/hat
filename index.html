@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>hat · wear the hat, get paid</title>
+<meta name="description" content="Keep your pfp. Add the coin's hat. Everyone wearing it splits the fees.">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="hat · wear the hat, get paid">
+<meta property="og:description" content="Keep your pfp. Add the coin's hat. Everyone wearing it splits the fees.">
+<meta property="og:image" content="https://hatsol.vercel.app/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hatsol.vercel.app/og.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--card:#111;--ink:#f4f1ea;--mute:#8e8b85;--soft:#5d5b57;--line:rgba(255,255,255,.1);--line2:rgba(255,255,255,.18);--acc:#ff5c30;--accl:#ffbaa0;--ok:#3fd07a;--bad:#ff5c5c;
+--px:Silkscreen,"JetBrains Mono",monospace;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden;scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{overflow-x:clip;background:var(--bg);color:var(--ink);font:400 15px/1.6 var(--mono);-webkit-font-smoothing:antialiased;
+background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px);background-size:24px 24px}
+::selection{background:rgba(255,92,48,.35)}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+canvas{image-rendering:pixelated}
+.wrap{width:min(1160px,100%);margin:0 auto;padding-left:24px;padding-right:24px}
+section{scroll-margin-top:84px;position:relative}
+nav{position:sticky;top:0;z-index:40;background:rgba(10,10,10,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.solid{border-color:var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 22px/1 var(--px);letter-spacing:.02em}
+.brand canvas{width:36px;height:24px}
+nav .links{margin-left:auto;display:flex;gap:24px;font:500 13px var(--mono);color:var(--mute)}
+nav .links a{text-decoration:none}nav .links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:8px;font:700 14px/1 var(--mono);text-decoration:none;white-space:nowrap;transition:transform .12s,box-shadow .12s,opacity .2s}
+.btn.acc{background:var(--acc);color:#140702;box-shadow:0 4px 0 #a8341a}.btn.acc:hover{transform:translateY(-1px);box-shadow:0 5px 0 #a8341a}.btn.acc:active{transform:translateY(3px);box-shadow:0 1px 0 #a8341a}
+.btn.line{border:2px solid var(--line2);color:var(--ink)}.btn.line:hover{border-color:rgba(255,255,255,.4)}
+.btn[aria-disabled="true"],.btn:disabled{opacity:.35;pointer-events:none}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:center;padding-top:56px;padding-bottom:30px}
+.panel{border:2px solid var(--line2);border-radius:14px;background:rgba(17,17,17,.92)}
+.hero .panel{padding:34px}
+.pill{display:inline-flex;align-items:center;gap:10px;font:600 12px/1 var(--mono);padding:9px 12px;border:1px solid var(--line2);border-radius:6px;color:#d8d5ce}
+.sq{width:9px;height:9px;background:var(--soft);flex:none}
+.pill.on .sq{background:var(--acc);animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.25}}
+#cd{font-variant-numeric:tabular-nums;color:var(--ink)}
+h1{margin-top:22px;font:700 clamp(38px,5.6vw,68px)/1.02 var(--px);letter-spacing:.01em;text-transform:uppercase;text-shadow:4px 4px 0 #262626}
+h1 em{font-style:normal;color:var(--acc);text-shadow:4px 4px 0 #6e2210}
+.lede{margin-top:18px;color:var(--mute);max-width:480px;font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.step{display:flex;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font:600 13px var(--mono);min-width:0}
+.step b{display:inline-grid;place-items:center;width:22px;height:22px;background:var(--acc);color:#140702;font:700 13px var(--mono);flex:none}
+.ca{display:flex;align-items:center;gap:10px;margin-top:22px;padding:7px 7px 7px 14px;border:1px solid var(--line2);border-radius:8px;background:#0c0c0c}
+.ca small{font:700 11px var(--mono);letter-spacing:.12em;color:var(--soft);text-transform:uppercase;flex:none}
+#ca{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:500 13px var(--mono)}
+.ca .btn{height:32px;padding:0 12px;font-size:12px}
+.ctas{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.stage:before{content:"";position:absolute;inset:8% 8% 0;background:radial-gradient(closest-side,rgba(255,92,48,.32),rgba(255,92,48,0));pointer-events:none}
+#demo{position:relative;width:min(100%,460px);height:auto;cursor:pointer}
+.stage small{text-align:center;font:500 12px var(--mono);color:var(--soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px}
+.stat{padding:18px 20px;border-left:1px solid var(--line);min-width:0}.stat:first-child{border-left:0}
+.stat small{display:block;font:700 11px var(--mono);letter-spacing:.1em;color:var(--soft);text-transform:uppercase}
+.stat b{display:block;margin-top:8px;font:700 22px/1.1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat b.acc{color:var(--acc)}
+.src{margin-top:10px;font:500 12px var(--mono);color:var(--soft)}.src.bad{color:var(--bad)}
+/* sections */
+.sec{padding-top:96px}
+.head{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.head .n{display:inline-grid;place-items:center;min-width:34px;height:26px;padding:0 6px;background:var(--acc);color:#140702;font:700 13px var(--mono)}
+.head h2{font:700 clamp(26px,3.6vw,40px)/1 var(--px);text-transform:uppercase}
+.head p{margin-left:auto;color:var(--mute);font-size:13px;max-width:380px;text-align:right}
+/* maker */
+.maker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.maker .panel{padding:24px;min-width:0}
+.canvasbox{position:relative;border-radius:10px;overflow:hidden;background:#161616;aspect-ratio:1;touch-action:none;cursor:grab}
+.canvasbox.drag{cursor:grabbing}
+#mk{width:100%;height:100%;display:block;image-rendering:auto}
+.circle{position:absolute;right:12px;bottom:12px;width:96px;height:96px;border-radius:50%;overflow:hidden;border:3px solid var(--bg);box-shadow:0 0 0 2px var(--line2);background:#161616}
+.circle canvas{width:100%;height:100%;image-rendering:auto;display:block}
+label.f{display:block;font:700 11px var(--mono);letter-spacing:.1em;color:var(--soft);text-transform:uppercase;margin:18px 0 8px}
+label.f:first-child{margin-top:0}
+.in{width:100%;height:46px;padding:0 14px;border-radius:8px;border:2px solid var(--line2);background:#0a0a0a;font:500 14px var(--mono);outline:none}
+.in:focus{border-color:var(--acc)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.samples{display:flex;gap:8px}
+.samples button{width:46px;height:46px;border-radius:8px;border:2px solid var(--line2);overflow:hidden;padding:0}
+.samples button canvas{width:100%;height:100%;display:block}
+.samples button.on{border-color:var(--acc)}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.code{margin-top:18px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;padding:6px;background:var(--acc);border-radius:4px;max-width:340px}
+.code i{aspect-ratio:1;background:var(--acc);outline:1px solid rgba(0,0,0,.08)}
+.code i.on{background:var(--accl)}
+.hint{margin-top:10px;font:500 12px var(--mono);color:var(--soft)}
+.hint b{color:var(--ink);font-weight:700}
+.hint.bad{color:var(--bad)}
+/* check */
+.checkg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.checkg .panel{padding:24px;min-width:0}
+.res .line{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-top:1px solid var(--line)}
+.res .line:first-child{border-top:0;padding-top:0}
+.res .mk{flex:none;width:26px;height:26px;display:grid;place-items:center;font:700 14px var(--mono);border:2px solid var(--line2);color:var(--soft)}
+.res .mk.ok{background:var(--ok);border-color:var(--ok);color:#06210f}
+.res .mk.no{background:var(--bad);border-color:var(--bad);color:#2a0606}
+.res .line b{display:block;font-weight:700}
+.res .line span{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.rule{padding:20px;min-width:0}
+.rule small{font:700 12px var(--mono);color:var(--acc)}
+.rule h3{margin-top:10px;font:700 15px/1.25 var(--px);text-transform:uppercase}
+.rule p{margin-top:8px;color:var(--mute);font-size:13px}
+.rule p b{color:var(--ink)}
+/* tables */
+.scroll{overflow-x:auto;max-height:540px;overflow-y:auto;padding:14px 8px 6px}
+.tbl{width:100%;border-collapse:collapse;font:500 13px var(--mono)}
+.tbl th{text-align:left;font:700 11px var(--mono);letter-spacing:.1em;color:var(--soft);text-transform:uppercase;padding:0 12px 10px}
+.tbl td{padding:11px 12px;border-top:1px solid var(--line);white-space:nowrap}
+.tbl .r{text-align:right}
+.tbl a{text-decoration:none;border-bottom:1px dotted var(--soft)}.tbl a:hover{color:var(--acc)}
+.tag{display:inline-block;padding:2px 8px;font:700 11px var(--mono);border:1px solid var(--line2)}
+.tag.on{background:var(--acc);border-color:var(--acc);color:#140702}
+.empty{padding:34px 16px;text-align:center;color:var(--soft)}
+.sub{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;font:500 12px var(--mono);color:var(--soft)}
+/* code explainer */
+.how{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+.how .panel{padding:24px;min-width:0}
+.how ol{list-style:none;counter-reset:s}
+.how li{counter-increment:s;padding:12px 0 12px 40px;position:relative;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+.how li:first-child{border-top:0}
+.how li:before{content:counter(s);position:absolute;left:0;top:12px;width:24px;height:24px;display:grid;place-items:center;border:2px solid var(--line2);font:700 12px var(--mono);color:var(--ink)}
+.how li b{color:var(--ink)}
+#bandbig{width:100%;height:auto;display:block}
+/* honest + faq */
+.honest{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);overflow:hidden}
+.honest div{padding:16px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);min-width:0}
+.honest div:nth-child(-n+2){border-top:0}
+.honest div:nth-child(odd){border-right:1px solid var(--line)}
+.honest .h{font:700 11px var(--mono);letter-spacing:.12em;color:var(--soft);text-transform:uppercase}
+.honest div b{color:var(--ink)}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 4px;font:700 15px var(--mono);display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";color:var(--acc);font:700 18px var(--mono)}
+.faq details[open] summary:after{content:"-"}
+.faq details p{padding:0 4px 18px;color:var(--mute);max-width:760px;font-size:14px}
+footer{margin-top:100px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;gap:18px;align-items:center;justify-content:space-between;padding-top:26px;padding-bottom:36px;font:500 12px var(--mono);color:var(--soft);flex-wrap:wrap}
+footer a{text-decoration:none}footer a:hover{color:var(--ink)}
+footer .fl{display:flex;gap:18px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:60;padding:10px 16px;border-radius:8px;background:var(--acc);color:#140702;font:700 13px var(--mono);opacity:0;transition:.2s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}.rv.vis{opacity:1;transform:none}
+@media (max-width:980px){.hero{grid-template-columns:minmax(0,1fr)}.stage{max-width:420px;margin:0 auto;width:100%}.rules{grid-template-columns:repeat(2,minmax(0,1fr))}.rules .rule:last-child{grid-column:1/-1}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat:nth-child(3){border-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:760px){nav .links{display:none}nav .btn.acc{margin-left:auto}.maker,.checkg,.how{grid-template-columns:minmax(0,1fr)}.head p{margin-left:0;text-align:left;flex-basis:100%}.honest{grid-template-columns:minmax(0,1fr)}.honest div:nth-child(odd){border-right:0}.honest div:nth-child(2){border-top:1px solid var(--line)}.honest .h:nth-child(2){display:none}.sec{padding-top:72px}}
+@media (max-width:520px){.wrap{padding-left:16px;padding-right:16px}.hero .panel{padding:22px}.steps{grid-template-columns:minmax(0,1fr)}.rules{grid-template-columns:minmax(0,1fr)}.ca small{display:none}.tbl .hide{display:none}.maker .panel,.checkg .panel{padding:18px}h1{text-shadow:3px 3px 0 #262626}h1 em{text-shadow:3px 3px 0 #6e2210}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="wrap">
+  <a class="brand" href="#top" aria-label="hat home"><canvas id="logo" width="24" height="16"></canvas>hat</a>
+  <div class="links"><a href="#make">make your hat</a><a href="#check">check</a><a href="#rules">rules</a><a href="#wearers">wearers</a><a href="#payouts">payouts</a></div>
+  <a class="btn acc" id="buy" href="#" target="_blank" rel="noopener" aria-disabled="true">buy $HAT</a>
+</div></nav>
+<main id="top">
+<header class="hero wrap">
+  <div class="panel">
+    <div class="pill" id="pill"><span class="sq"></span><span id="session">opens at launch</span><span>·</span><span>next round in <span id="cd">--:--:--</span></span></div>
+    <h1>Wear the <em>hat.</em><br>Get paid.</h1>
+    <p class="lede">Keep your own pfp. Put the coin's hat on it. Everyone wearing the hat splits the fees, by how much they hold.</p>
+    <div class="steps"><div class="step"><b>1</b>hold</div><div class="step"><b>2</b>wear the hat</div><div class="step"><b>3</b>get paid</div></div>
+    <div class="ca"><small>contract</small><span id="ca">—</span><button class="btn line" id="cacopy" type="button" disabled>copy</button></div>
+    <div class="ctas"><a class="btn acc" href="#make">make your hat</a><a class="btn line" href="#check">check if you count</a><a class="btn line" id="chart" href="#" target="_blank" rel="noopener" aria-disabled="true">chart</a></div>
+  </div>
+  <div class="stage"><canvas id="demo" width="320" height="320" aria-label="a creature wearing the hat; its band shows a code"></canvas><small>every hat carries a different code. tap it.</small></div>
+</header>
+<div class="wrap">
+  <div class="panel stats">
+    <div class="stat"><small>wearing the hat</small><b data-k="wearing">—</b></div>
+    <div class="stat"><small>pot this round</small><b class="acc" data-k="pot">—</b></div>
+    <div class="stat"><small>paid out</small><b data-k="paid">—</b></div>
+    <div class="stat"><small>market cap</small><b data-k="mcap">—</b></div>
+  </div>
+  <p class="src" id="src">Live once the contract is set.</p>
+</div>
+
+<section class="sec wrap rv" id="make">
+  <div class="head"><span class="n">01</span><h2>Make your hat</h2><p>Your picture never leaves your browser. The hat is drawn on top, with your wallet's code in the band.</p></div>
+  <div class="maker">
+    <div class="panel">
+      <div class="canvasbox" id="mkbox"><canvas id="mk" width="800" height="800" aria-label="your picture with the hat"></canvas><div class="circle"><canvas id="mkc" width="200" height="200"></canvas></div></div>
+      <p class="hint">Drag to move your picture under the hat. The hat stays put so it can be read.</p>
+    </div>
+    <div class="panel">
+      <label class="f" for="file">1 · your picture</label>
+      <div class="row"><label class="btn line" for="file" style="cursor:pointer">upload</label><input type="file" id="file" accept="image/*" hidden><span class="hint" style="margin:0">or use one of ours</span></div>
+      <div class="samples" id="samples" style="margin-top:10px"></div>
+      <label class="f" for="zoom">2 · size</label>
+      <input type="range" id="zoom" min="100" max="300" value="100" aria-label="picture size">
+      <label class="f" for="mw">3 · the wallet that holds $HAT</label>
+      <input class="in" id="mw" placeholder="your Solana wallet" autocomplete="off" spellcheck="false">
+      <div class="code" id="codegrid" aria-label="your code"></div>
+      <p class="hint" id="codehint">Paste your wallet to stamp its code into the band.</p>
+      <div class="row" style="margin-top:18px"><button class="btn acc" id="save" type="button" disabled>save my hat pfp</button></div>
+      <p class="hint">Set the saved file as your X pfp as it is. A small crop is fine; filters and stickers erase the code.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap rv" id="check">
+  <div class="head"><span class="n">02</span><h2>Check if you count</h2><p>Reads your X picture and your wallet the same way each round does.</p></div>
+  <div class="checkg">
+    <div class="panel">
+      <form id="ck">
+        <label class="f" for="ch">your X handle</label><input class="in" id="ch" placeholder="@handle" autocomplete="off" spellcheck="false">
+        <label class="f" for="cw">your wallet</label><input class="in" id="cw" placeholder="the wallet in your hat" autocomplete="off" spellcheck="false">
+        <div class="row" style="margin-top:18px"><button class="btn acc" type="submit" id="ckb">check</button></div>
+      </form>
+      <p class="hint">Nothing to sign, nothing to connect.</p>
+    </div>
+    <div class="panel res" id="res">
+      <div class="line"><span class="mk">1</span><div><b>holding</b><span>at least <span data-k="min">100,000</span> $HAT in that wallet</span></div></div>
+      <div class="line"><span class="mk">2</span><div><b>wearing</b><span>the hat is on your X picture with this wallet's code</span></div></div>
+      <div class="line"><span class="mk">3</span><div><b>counted</b><span>you're on the wearers list for the next round</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap rv" id="rules">
+  <div class="head"><span class="n">03</span><h2>The rules</h2><p>No sign-up. No claim button. No posting targets.</p></div>
+  <div class="rules">
+    <div class="panel rule"><small>01</small><h3>Hold</h3><p>Keep at least <b data-k="min">100,000</b> $HAT in the wallet in your hat.</p></div>
+    <div class="panel rule"><small>02</small><h3>Make it</h3><p>Put the hat on your own pfp above. Your wallet's code goes into the band.</p></div>
+    <div class="panel rule"><small>03</small><h3>Wear it</h3><p>Set it as your X pfp and check once. You're in from the next round.</p></div>
+    <div class="panel rule"><small>04</small><h3>Every round</h3><p>Every <b data-k="every">24 hours</b> the fee wallet is split between everyone wearing the hat, <b>by holdings</b>.</p></div>
+    <div class="panel rule"><small>05</small><h3>Copy = gift</h3><p>The code is the wallet. Copy someone's hat and you're paying them.</p></div>
+  </div>
+</section>
+
+<section class="sec wrap rv" id="wearers">
+  <div class="head"><span class="n">04</span><h2>Wearers</h2><p>Everyone who checked in, biggest bag first. Each round checks them all again.</p></div>
+  <div class="panel scroll"><table class="tbl"><thead><tr><th>#</th><th>X</th><th class="hide">wallet</th><th class="r">holds</th><th class="r">share</th><th>status</th></tr></thead><tbody id="wbody"><tr><td colspan="6" class="empty">No one is wearing it yet.</td></tr></tbody></table></div>
+  <div class="sub"><span id="wsrc">—</span><span id="wround"></span></div>
+</section>
+
+<section class="sec wrap rv" id="payouts">
+  <div class="head"><span class="n">05</span><h2>Payouts</h2><p>Straight from the fee wallet. Money in, money out, each with its transaction.</p></div>
+  <div class="panel scroll"><table class="tbl"><thead><tr><th>when</th><th>what</th><th class="r">sol</th><th class="r hide">tx</th></tr></thead><tbody id="paybody"><tr><td colspan="4" class="empty">No payouts yet.</td></tr></tbody></table></div>
+  <div class="sub"><span id="paysrc">—</span><a id="walletlink" href="#" target="_blank" rel="noopener" style="display:none">fee wallet on solscan</a></div>
+</section>
+
+<section class="sec wrap rv" id="code">
+  <div class="head"><span class="n">06</span><h2>The band</h2><p>How a hat proves who it belongs to.</p></div>
+  <div class="how">
+    <div class="panel"><canvas id="bandbig" width="240" height="160" aria-label="the hat band, cell by cell"></canvas></div>
+    <div class="panel"><ol>
+      <li>The band has <b>30 cells</b>. Light is 1, dark is 0.</li>
+      <li><b>24 of them</b> come from your wallet address: the first 3 bytes of its SHA-256.</li>
+      <li><b>6 check cells</b> make a misread fail instead of matching the wrong wallet.</li>
+      <li>Each round reads every wearer's X picture once, finds the band and compares it to their wallet.</li>
+    </ol></div>
+  </div>
+</section>
+
+<section class="sec wrap rv" id="honest">
+  <div class="head"><span class="n">07</span><h2>What it can't do</h2><p>The limits, said plainly.</p></div>
+  <div class="panel honest">
+    <div class="h">it cannot</div><div class="h">so it</div>
+    <div>Read a band that a filter, sticker or heavy crop has wiped.</div><div>Counts you as not wearing for that round. Re-save the file and check again.</div>
+    <div>Read a protected or missing X picture.</div><div>Skips that account for the round. What you already earned stays yours.</div>
+    <div>Send payouts by itself.</div><div>Works out each round's list from the chain and your pictures. The transfers come from the fee wallet and are <b>listed above</b>.</div>
+    <div>Show numbers it doesn't have.</div><div>Shows a dash. <b>A dash is not a zero.</b></div>
+  </div>
+</section>
+
+<section class="sec wrap rv" id="faq">
+  <div class="head"><span class="n">08</span><h2>Questions</h2></div>
+  <div class="faq">
+    <details><summary>Do I have to give up my pfp?</summary><p>No. That's the point of the hat: your own picture stays, the hat sits on top.</p></details>
+    <details><summary>Where does the money come from?</summary><p>The creator fees from every $HAT trade go to the fee wallet. Each round splits that wallet between the wearers, by holdings.</p></details>
+    <details><summary>What if I take the hat off?</summary><p>You're not counted in the rounds while it's off. Put it back on and check again.</p></details>
+    <details><summary>Can someone steal my hat?</summary><p>They can wear it, but the band carries your wallet's code. Every round it counts for your wallet, not theirs.</p></details>
+    <details><summary>Do I connect a wallet?</summary><p>Never. You paste the address you want paid. Nothing here asks you to sign anything.</p></details>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>hat · keep your pfp, wear the hat</span><span class="fl"><a href="#make">make your hat</a><a href="#payouts">payouts</a><a id="fbuy" href="#" target="_blank" rel="noopener" aria-disabled="true">pump.fun</a></span></div></footer>
+<div class="toast" id="toast"></div>
+<script>
+(function () {
+"use strict";
+var $ = function (s) { return document.querySelector(s); };
+var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var B58 = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/, HANDLE = /^@?[A-Za-z0-9_]{1,15}$/;
+var S = { cfg: null, roll: null, rollErr: false, vault: null, vaultErr: false, market: null };
+
+/* ---------- format ---------- */
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }); }
+function short(w) { return w.slice(0, 4) + "…" + w.slice(-4); }
+function sol(v) { if (v == null || !isFinite(v)) return "—"; var a = Math.abs(v), d = a >= 100 ? 2 : a >= 1 ? 3 : a >= 0.01 ? 4 : a > 0 ? 6 : 3; return v.toFixed(d) + " SOL"; }
+function compact(n) {
+  if (n == null || !isFinite(n)) return "—"; var a = Math.abs(n);
+  if (a >= 1e9) return (n / 1e9).toFixed(2).replace(/\.?0+$/, "") + "B";
+  if (a >= 1e6) return (n / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M";
+  if (a >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, "") + "K";
+  return String(Math.round(n));
+}
+function usd(n) { return n == null || !isFinite(n) ? "—" : "$" + compact(n); }
+function int(n) { return n == null || !isFinite(n) ? "—" : Math.round(n).toLocaleString("en-US"); }
+function ago(ms) { var s = Math.max(0, (Date.now() - ms) / 1000); return s < 60 ? "just now" : s < 3600 ? Math.floor(s / 60) + " min ago" : s < 86400 ? Math.floor(s / 3600) + " h ago" : Math.floor(s / 86400) + " d ago"; }
+var MON = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+function when(t) { var d = new Date(t * 1000); return MON[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + ("0" + d.getUTCHours()).slice(-2) + ":" + ("0" + d.getUTCMinutes()).slice(-2) + " UTC"; }
+function toast(t) { var e = $("#toast"); e.textContent = t; e.classList.add("show"); clearTimeout(toast.k); toast.k = setTimeout(function () { e.classList.remove("show"); }, 1600); }
+function getJSON(u) { return fetch(u, { cache: "no-store" }).then(function (r) { return r.json().then(function (j) { if (!r.ok || j.error) { var e = new Error(j.error || "upstream"); e.status = r.status; throw e; } return j; }); }); }
+
+/* ---------- the band code (same rules as the server) ---------- */
+function sha(str) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(str)).then(function (b) { return new Uint8Array(b); }); }
+function codeFor(wallet) {
+  return sha(wallet).then(function (h) {
+    var data = (h[0] << 16) | (h[1] << 8) | h[2], hex = ("00000" + data.toString(16)).slice(-6);
+    return sha("hat|" + hex).then(function (c) {
+      var chk = c[0] >> 2, bits = [], i;
+      for (i = 23; i >= 0; i--) bits.push((data >> i) & 1);
+      for (i = 5; i >= 0; i--) bits.push((chk >> i) & 1);
+      return { hex: hex, bits: bits };
+    });
+  });
+}
+
+/* ---------- the hat sprite ---------- */
+var HAT = [
+ ".....OOOOOOOOOOOOOO.....",
+ "....OWWWWWWWWWWWWWWO....",
+ "....OsWWWWWWWWWWWWsO....",
+ ".....OWhWWWWWWWWWsO.....",
+ ".....OWhWWWWWWWWWsO.....",
+ ".....OWhWWWWWWWWWsO.....",
+ ".....OBBBBBBBBBBBBO.....",
+ ".....OB##########BO.....",
+ ".....OB##########BO.....",
+ ".....OB##########BO.....",
+ ".....OBBBBBBBBBBBBO.....",
+ ".....OWhWWWWWWWWWsO.....",
+ ".OOOOOWWWWWWWWWWWWOOOOO.",
+ "OsWWWWWWWWWWWWWWWWWWWWsO",
+ "OOsWWWWWWWWWWWWWWWWWWsOO",
+ "..OOOOOOOOOOOOOOOOOOOO.."];
+var HC = { O: "#3a3632", W: "#f4f1ea", h: "#ffffff", s: "#d6d0c6", B: "#ff5c30" }, ON = "#ffbaa0", OFF = "#ff5c30";
+function drawHat(x, x0, y0, p, bits, shadow) {
+  var r, c, ch, k = 0;
+  if (shadow) {
+    x.fillStyle = "rgba(0,0,0," + shadow + ")";
+    for (r = 0; r < HAT.length; r++) for (c = 0; c < 24; c++) if (HAT[r][c] !== ".") x.fillRect(x0 + c * p + p * 0.6, y0 + r * p + p * 0.6, p, p);
+  }
+  for (r = 0; r < HAT.length; r++) for (c = 0; c < 24; c++) {
+    ch = HAT[r][c]; if (ch === ".") continue;
+    if (ch === "#") { x.fillStyle = bits ? (bits[k] ? ON : OFF) : OFF; k++; } else x.fillStyle = HC[ch];
+    x.fillRect(x0 + c * p, y0 + r * p, p, p);
+  }
+}
+
+/* ---------- creatures (original pixel blobs) ---------- */
+var BODIES = [["#ff5c30", "#3a1408"], ["#7cc4ff", "#122436"], ["#8fd6a0", "#12301c"], ["#c4a2ff", "#241a3d"], ["#ffc45c", "#3a2a0c"]];
+function dark(hex, k) { var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; return "rgb(" + Math.round(r * k) + "," + Math.round(g * k) + "," + Math.round(b * k) + ")"; }
+function drawCreature(x, n, p, ox, oy, body, bg, look, round) {
+  var c0 = (n - 1) / 2, r, c, bx, by, d2;
+  for (r = 0; r < n; r++) for (c = 0; c < n; c++) {
+    if (round && (r - c0) * (r - c0) + (c - c0) * (c - c0) > (n / 2 - 0.3) * (n / 2 - 0.3)) continue;
+    bx = (c - c0) / (n * 0.40); by = (r - n * 0.98) / (n * 0.58); d2 = Math.pow(Math.abs(bx), 2.4) + Math.pow(Math.abs(by), 2.4);
+    x.fillStyle = d2 <= 1 ? (bx > 0.55 ? dark(body, 0.78) : body) : bg; x.fillRect(ox + c * p, oy + r * p, p, p);
+  }
+  var ey = Math.round(n * 0.60), ex = Math.max(2, Math.round(n * 0.14)), er = Math.max(1, Math.floor(n / 14)), sx, cx, pr, pc;
+  for (sx = -1; sx <= 1; sx += 2) {
+    cx = Math.round(c0 + sx * ex);
+    x.fillStyle = "#f4f1ea"; x.fillRect(ox + (cx - er) * p, oy + (ey - er) * p, (2 * er + 1) * p, (2 * er + 1) * p);
+    pr = ey + (look[1] > 0 ? 1 : look[1] < 0 ? -1 : 0); pc = cx + (look[0] > 0 ? 1 : look[0] < 0 ? -1 : 0);
+    x.fillStyle = "#101012"; x.fillRect(ox + (pc - Math.max(0, er - 1)) * p, oy + (pr - Math.max(0, er - 1)) * p, Math.max(1, er) * p, Math.max(1, er) * p);
+  }
+  var my = Math.round(n * 0.76), mc = Math.round(c0);
+  x.fillStyle = "#101012"; x.fillRect(ox + (mc - 1) * p, oy + my * p, 3 * p, p); x.fillRect(ox + (mc - 2) * p, oy + (my - 1) * p, p, p); x.fillRect(ox + (mc + 2) * p, oy + (my - 1) * p, p, p);
+}
+
+/* ---------- logo ---------- */
+(function () { var c = $("#logo"), x = c.getContext("2d"); drawHat(x, 0, 0, 1, null); })();
+
+/* ---------- hero demo: the band flickers through codes ---------- */
+var demo = $("#demo"), dx = demo.getContext("2d"), dBody = 0, dBits = null, dLook = [1, -1];
+function rndBits() { var b = []; for (var i = 0; i < 30; i++) b.push(Math.random() < 0.5 ? 1 : 0); return b; }
+function drawDemo() {
+  dx.clearRect(0, 0, 320, 320);
+  var n = 26, p = 10, ox = (320 - n * p) / 2, oy = 52;
+  dx.fillStyle = "#f4f1ea"; dx.beginPath(); dx.arc(160, oy + n * p / 2, n * p / 2 + 6, 0, Math.PI * 2); dx.fill();
+  drawCreature(dx, n, p, ox, oy, BODIES[dBody][0], BODIES[dBody][1], dLook, true);
+  drawHat(dx, 160 - 12 * 7, oy + Math.round(n * 0.40) * p - 13 * 7, 7, dBits, 0.55);
+}
+dBits = rndBits(); drawDemo();
+demo.addEventListener("click", function () { dBody = (dBody + 1) % BODIES.length; dBits = rndBits(); dLook = [Math.round(Math.random() * 2 - 1), Math.round(Math.random() * 2 - 1)]; drawDemo(); drawBand(); });
+if (!still) setInterval(function () { if (document.hidden) return; var i = Math.floor(Math.random() * 30); dBits[i] = 1 - dBits[i]; drawDemo(); if (!MK.bits) drawBand(); }, 260);
+
+/* ---------- the maker ---------- */
+var MK = { img: null, ox: 0, oy: 0, z: 1, bits: null, hex: null, sample: 0 };
+var mk = $("#mk"), mx = mk.getContext("2d"), mkc = $("#mkc"), mcx = mkc.getContext("2d");
+function sampleCanvas(i) {
+  var c = document.createElement("canvas"); c.width = c.height = 800; var x = c.getContext("2d");
+  x.fillStyle = BODIES[i][1]; x.fillRect(0, 0, 800, 800);
+  drawCreature(x, 32, 25, 0, 0, BODIES[i][0], BODIES[i][1], [i % 3 - 1, i % 2 ? 1 : -1], false);
+  return c;
+}
+function drawMaker() {
+  mx.fillStyle = "#161616"; mx.fillRect(0, 0, 800, 800);
+  var im = MK.img || sampleCanvas(MK.sample), iw = im.width || im.naturalWidth, ih = im.height || im.naturalHeight;
+  var k = Math.max(800 / iw, 800 / ih) * MK.z, w = iw * k, h = ih * k;
+  MK.ox = Math.min(0, Math.max(800 - w, MK.ox)); MK.oy = Math.min(0, Math.max(800 - h, MK.oy));
+  mx.imageSmoothingEnabled = true; mx.drawImage(im, MK.ox, MK.oy, w, h);
+  drawHat(mx, 208, 24, 16, MK.bits, 0.45);
+  mcx.clearRect(0, 0, 200, 200); mcx.drawImage(mk, 0, 0, 200, 200);
+  $("#save").disabled = !MK.bits;
+}
+function centre() {
+  var im = MK.img || sampleCanvas(MK.sample), iw = im.width || im.naturalWidth, ih = im.height || im.naturalHeight, k = Math.max(800 / iw, 800 / ih) * MK.z;
+  MK.ox = (800 - iw * k) / 2; MK.oy = (800 - ih * k) / 2;
+}
+(function () {
+  var box = $("#samples");
+  BODIES.slice(0, 4).forEach(function (b, i) {
+    var bt = document.createElement("button"); bt.type = "button"; bt.setAttribute("aria-label", "sample creature " + (i + 1));
+    var c = document.createElement("canvas"); c.width = c.height = 46; c.getContext("2d").drawImage(sampleCanvas(i), 0, 0, 46, 46); bt.appendChild(c);
+    bt.addEventListener("click", function () { MK.img = null; MK.sample = i; MK.z = 1; $("#zoom").value = 100; centre(); drawMaker(); [].forEach.call(box.children, function (e, j) { e.classList.toggle("on", j === i); }); });
+    if (i === 0) bt.classList.add("on"); box.appendChild(bt);
+  });
+})();
+$("#file").addEventListener("change", function (e) {
+  var f = e.target.files && e.target.files[0]; if (!f) return;
+  if (!/^image\//.test(f.type)) { toast("that isn't an image"); return; }
+  var url = URL.createObjectURL(f), im = new Image();
+  im.onload = function () { MK.img = im; MK.z = 1; $("#zoom").value = 100; centre(); drawMaker(); [].forEach.call($("#samples").children, function (e) { e.classList.remove("on"); }); };
+  im.onerror = function () { toast("couldn't open that picture"); };
+  im.src = url;
+});
+$("#zoom").addEventListener("input", function (e) {
+  var z0 = MK.z, z1 = e.target.value / 100, c = 400;
+  MK.ox = c - (c - MK.ox) * z1 / z0; MK.oy = c - (c - MK.oy) * z1 / z0; MK.z = z1; drawMaker();
+});
+(function () {
+  var box = $("#mkbox"), drag = null;
+  box.addEventListener("pointerdown", function (e) { drag = { x: e.clientX, y: e.clientY, ox: MK.ox, oy: MK.oy }; box.classList.add("drag"); box.setPointerCapture(e.pointerId); });
+  box.addEventListener("pointermove", function (e) { if (!drag) return; var k = 800 / box.clientWidth; MK.ox = drag.ox + (e.clientX - drag.x) * k; MK.oy = drag.oy + (e.clientY - drag.y) * k; drawMaker(); });
+  var end = function () { drag = null; box.classList.remove("drag"); };
+  box.addEventListener("pointerup", end); box.addEventListener("pointercancel", end);
+})();
+var grid = $("#codegrid"); for (var gi = 0; gi < 30; gi++) grid.appendChild(document.createElement("i"));
+function setCode(c) {
+  MK.bits = c ? c.bits : null; MK.hex = c ? c.hex : null;
+  [].forEach.call(grid.children, function (e, i) { e.classList.toggle("on", !!(c && c.bits[i])); });
+  drawMaker(); drawBand();
+}
+$("#mw").addEventListener("input", function (e) {
+  var w = e.target.value.trim(), h = $("#codehint");
+  if (!w) { setCode(null); h.className = "hint"; h.textContent = "Paste your wallet to stamp its code into the band."; return; }
+  if (!B58.test(w)) { setCode(null); h.className = "hint bad"; h.textContent = "That isn't a Solana wallet address."; return; }
+  codeFor(w).then(function (c) { if ($("#mw").value.trim() !== w) return; setCode(c); h.className = "hint"; h.innerHTML = "Code <b>" + c.hex.match(/../g).join(" ") + "</b> for " + esc(short(w)) + ". Same wallet, same code, every time."; if (!$("#cw").value) $("#cw").value = w; });
+});
+$("#save").addEventListener("click", function () {
+  if (!MK.bits) return; drawMaker();
+  mk.toBlob(function (b) {
+    if (!b) { toast("couldn't save, try another browser"); return; }
+    var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "hat-pfp-" + MK.hex + ".png"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); toast("saved. set it as your X pfp");
+  }, "image/png");
+});
+centre(); drawMaker();
+
+/* ---------- the band explainer ---------- */
+var bb = $("#bandbig"), bx = bb.getContext("2d");
+function drawBand() {
+  var bits = MK.bits || dBits; bx.clearRect(0, 0, 240, 160);
+  // band rows 6-10, cols 6-17 of the sprite, drawn big
+  var p = 20, k = 0, r, c;
+  for (r = 6; r <= 10; r++) for (c = 6; c <= 17; c++) {
+    var ch = HAT[r][c]; bx.fillStyle = ch === "#" ? (bits[k++] ? ON : OFF) : HC[ch] || "#000"; bx.fillRect((c - 6) * p, 30 + (r - 6) * p, p, p);
+    if (ch === "#") { bx.strokeStyle = "rgba(0,0,0,.18)"; bx.strokeRect((c - 6) * p + 0.5, 30 + (r - 6) * p + 0.5, p - 1, p - 1); }
+  }
+  bx.fillStyle = "#8e8b85"; bx.font = "600 11px JetBrains Mono, monospace";
+  bx.fillText(MK.bits ? "your band · " + MK.hex.match(/../g).join(" ") : "a band · paste a wallet above to see yours", 0, 18);
+  bx.fillText("cells 1-24 wallet · 25-30 check", 0, 154);
+}
+drawBand();
+
+/* ---------- countdown ---------- */
+function tick() {
+  var every = (S.cfg && S.cfg.every) || 24, now = Date.now(), step = every * 3600000, next = Math.floor(now / step) * step + step, s = Math.max(0, Math.floor((next - now) / 1000));
+  $("#cd").textContent = ("0" + Math.floor(s / 3600)).slice(-2) + ":" + ("0" + Math.floor(s % 3600 / 60)).slice(-2) + ":" + ("0" + s % 60).slice(-2);
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- live data ---------- */
+function setK(k, v) { var e = document.querySelectorAll('[data-k="' + k + '"]'); for (var i = 0; i < e.length; i++) e[i].textContent = v; }
+function lastPayout() { var v = S.vault; if (!v || !v.live) return null; var r = (v.rows || []).filter(function (x) { return x.d < 0 && x.n > 0; })[0]; return r ? -r.d : null; }
+function render() {
+  var c = S.cfg || {}, live = !!c.mint, ms = S.roll && S.roll.registry && S.roll.members;
+  setK("min", int(c.min || 100000)); setK("every", (c.every || 24) + " hour" + ((c.every || 24) > 1 ? "s" : ""));
+  setK("wearing", ms ? String(ms.filter(function (m) { return m.ok; }).length) : "—");
+  setK("pot", S.vault && S.vault.live ? sol(S.vault.bal) : "—");
+  var lp = lastPayout(); setK("paid", lp == null ? "—" : sol(lp));
+  setK("mcap", S.market && S.market.pair ? usd(S.market.pair.mcap) : "—");
+  $("#pill").classList.toggle("on", live); $("#session").textContent = live ? "hats on" : "opens at launch";
+  var src = $("#src"), msg, bad = false;
+  if (!live) msg = "Live once the contract is set.";
+  else {
+    msg = "live from solana";
+    if (S.vaultErr) { msg += " · fee wallet unavailable right now"; bad = true; }
+    else if (!c.feeWallet) msg += " · the pot shows once the fee wallet is set";
+    if (!c.registry) msg += " · the wearers list isn't connected yet";
+  }
+  src.textContent = msg; src.classList.toggle("bad", bad);
+  renderWearers(); renderPay();
+}
+function renderWearers() {
+  var r = S.roll, body = $("#wbody");
+  if (!r || !r.registry) { body.innerHTML = '<tr><td colspan="6" class="empty">' + (S.rollErr ? "The wearers list is unavailable right now." : r && !r.registry ? "The wearers list isn't connected yet. Checks still work." : "No one is wearing it yet.") + "</td></tr>"; $("#wsrc").textContent = "—"; $("#wround").textContent = ""; return; }
+  var ms = r.members || [], on = ms.filter(function (m) { return m.ok; }), tot = on.reduce(function (s, m) { return s + (m.holds || 0); }, 0);
+  if (!ms.length) body.innerHTML = '<tr><td colspan="6" class="empty">No one is wearing it yet. Be the first: make your hat above.</td></tr>';
+  else body.innerHTML = ms.map(function (m, i) {
+    return "<tr><td>" + (i + 1) + "</td><td>@" + esc(m.handle) + '</td><td class="hide"><a href="https://solscan.io/account/' + esc(m.wallet) + '" target="_blank" rel="noopener">' + esc(short(m.wallet)) + '</a></td><td class="r">' + compact(m.holds) + '</td><td class="r">' + (m.ok && tot ? (m.holds / tot * 100).toFixed(m.holds / tot >= 0.1 ? 1 : 2) + "%" : "—") + '</td><td><span class="tag' + (m.ok ? " on" : "") + '">' + (m.ok ? "wearing" : "off") + "</span></td></tr>";
+  }).join("");
+  $("#wsrc").textContent = on.length + " wearing · " + (ms.length - on.length) + " off · " + ago(r.t);
+  $("#wround").textContent = r.round ? "last round " + ago(r.round.t) + " · " + sol(r.round.pot) + " to " + r.round.count : "no round yet";
+}
+function renderPay() {
+  var v = S.vault, body = $("#paybody"), wl = $("#walletlink");
+  if (!v || !v.live) { body.innerHTML = '<tr><td colspan="4" class="empty">' + (S.vaultErr ? "The fee wallet is unavailable right now." : S.cfg && S.cfg.feeWallet ? "Reading the fee wallet…" : "No payouts yet.") + "</td></tr>"; $("#paysrc").textContent = "—"; wl.style.display = "none"; return; }
+  wl.style.display = ""; wl.href = "https://solscan.io/account/" + v.wallet;
+  var rows = (v.rows || []).filter(function (r) { return r.d !== 0; });
+  body.innerHTML = rows.length ? rows.map(function (r) {
+    var what = r.d > 0 ? "fees in" : r.n > 1 ? "paid " + r.n + " wearers" : "paid 1 wearer";
+    return "<tr><td>" + when(r.t) + "</td><td" + (r.d < 0 ? ' style="color:var(--acc)"' : "") + ">" + what + '</td><td class="r">' + (r.d > 0 ? "+" : "−") + sol(Math.abs(r.d)).replace(" SOL", "") + '</td><td class="r hide"><a href="https://solscan.io/tx/' + esc(r.s) + '" target="_blank" rel="noopener">' + esc(r.s.slice(0, 6)) + "…</a></td></tr>";
+  }).join("") : '<tr><td colspan="4" class="empty">No payouts yet. The first round pays at the countdown.</td></tr>';
+  $("#paysrc").textContent = "fee wallet " + short(v.wallet) + " · balance " + sol(v.bal) + " · " + ago(v.t);
+}
+
+/* ---------- check ---------- */
+function mark(i, state, title, text) {
+  var l = $("#res").children[i], m = l.querySelector(".mk");
+  m.className = "mk" + (state === true ? " ok" : state === false ? " no" : ""); m.textContent = state === true ? "✓" : state === false ? "×" : "–";
+  l.querySelector(":scope > div > b").textContent = title; l.querySelector(":scope > div > span").textContent = text;
+}
+$("#ck").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var h = $("#ch").value.trim().replace(/^@/, ""), w = $("#cw").value.trim();
+  if (!HANDLE.test(h)) { mark(0, null, "holding", "—"); mark(1, false, "wearing", "That isn't an X handle."); mark(2, null, "counted", "—"); return; }
+  if (!B58.test(w)) { mark(0, false, "holding", "That isn't a Solana wallet address."); mark(1, null, "wearing", "—"); mark(2, null, "counted", "—"); return; }
+  var btn = $("#ckb"); btn.disabled = true; btn.textContent = "checking…";
+  mark(0, null, "holding", "reading the wallet…"); mark(1, null, "wearing", "reading @" + h + "'s picture…"); mark(2, null, "counted", "—");
+  getJSON("/api/check?handle=" + encodeURIComponent(h) + "&wallet=" + encodeURIComponent(w)).then(function (j) {
+    var min = int(j.min);
+    if (j.holds == null) mark(0, null, "holding", j.holdsError ? "Couldn't read the wallet right now." : "Shows once the contract is set.");
+    else mark(0, j.enough, "holding", compact(j.holds) + " $HAT" + (j.enough ? "" : " · needs " + min));
+    if (j.pfpError) mark(1, null, "wearing", j.pfpError === "no such account" ? "No X account called @" + j.handle + "." : "Couldn't read @" + j.handle + "'s picture right now.");
+    else if (j.wearing) mark(1, true, "wearing", "Hat found. Code " + j.code.match(/../g).join(" ") + " matches this wallet.");
+    else if (j.mismatch) mark(1, false, "wearing", "That hat carries another wallet's code (" + j.found.match(/../g).join(" ") + "). Make yours above.");
+    else if (j.hat) mark(1, false, "wearing", "There's a hat, but its band can't be read. Use the saved file as it is.");
+    else mark(1, false, "wearing", "No hat on @" + j.handle + "'s picture yet.");
+    if (j.registered) mark(2, true, "counted", "You're on the list from the next round.");
+    else if (S.cfg && !S.cfg.registry) mark(2, null, "counted", "The wearers list isn't connected yet.");
+    else if (j.registryError) mark(2, null, "counted", "Couldn't save you to the list right now. Check again in a minute.");
+    else mark(2, false, "counted", "Not yet. Hold enough and wear the hat, then check again.");
+    loadRoll();
+  }, function (err) {
+    mark(0, null, "holding", "—"); mark(1, null, "wearing", err.message && err.status && err.status < 500 ? err.message : "The check is unavailable right now."); mark(2, null, "counted", "—");
+  }).then(function () { btn.disabled = false; btn.textContent = "check"; });
+});
+
+/* ---------- copy, nav, reveal ---------- */
+$("#cacopy").addEventListener("click", function () {
+  var m = S.cfg && S.cfg.mint; if (!m) return;
+  (navigator.clipboard ? navigator.clipboard.writeText(m) : Promise.reject()).then(function () { toast("contract copied"); }, function () { toast("copy failed"); });
+});
+var nav = $("#nav"); addEventListener("scroll", function () { nav.classList.toggle("solid", scrollY > 8); }, { passive: true });
+var rvs = document.querySelectorAll(".rv");
+if ("IntersectionObserver" in window && !still) {
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+  rvs.forEach(function (e) { io.observe(e); });
+  var sweep = function () { rvs.forEach(function (e) { if (e.getBoundingClientRect().top < innerHeight) e.classList.add("vis"); }); };
+  addEventListener("scroll", sweep, { passive: true }); addEventListener("hashchange", function () { setTimeout(sweep, 50); }); setTimeout(sweep, 60);
+} else rvs.forEach(function (e) { e.classList.add("vis"); });
+
+/* ---------- load ---------- */
+function links() {
+  var m = S.cfg && S.cfg.mint; $("#ca").textContent = m || "—"; $("#cacopy").disabled = !m;
+  [["#buy", "https://pump.fun/coin/"], ["#fbuy", "https://pump.fun/coin/"], ["#chart", "https://dexscreener.com/solana/"]].forEach(function (a) {
+    var e = $(a[0]); if (m) { e.href = a[1] + m; e.removeAttribute("aria-disabled"); } else { e.setAttribute("href", "#"); e.setAttribute("aria-disabled", "true"); }
+  });
+  if (S.market && S.market.pair && S.market.pair.url) $("#chart").href = S.market.pair.url;
+}
+function loadRoll() { return getJSON("/api/roll").then(function (j) { S.roll = j; S.rollErr = false; render(); }, function () { S.rollErr = true; render(); }); }
+function load() {
+  return getJSON("/api/config").then(function (c) {
+    S.cfg = c; links(); render(); tick();
+    return Promise.all([
+      loadRoll(),
+      c.feeWallet ? getJSON("/api/vault").then(function (j) { S.vault = j; S.vaultErr = false; }, function () { S.vaultErr = true; }) : null,
+      c.mint ? getJSON("/api/market").then(function (j) { S.market = j; links(); }, function () {}) : null
+    ]).then(render);
+  }, function () { S.cfg = S.cfg || { mint: null, min: 100000, every: 24 }; render(); });
+}
+render(); load(); setInterval(function () { if (!document.hidden) load(); }, 60000);
+})();
+
+</script>
+</body>
+</html>

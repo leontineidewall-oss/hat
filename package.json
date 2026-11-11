@@ -1,0 +1,7 @@
+{
+  "name": "hat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "hat: wear the coin's hat on your pfp, get a share of its fees",
+  "dependencies": { "sharp": "0.33.5" }
+}
