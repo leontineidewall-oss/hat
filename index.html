@@ -94,6 +94,17 @@ label.f:first-child{margin-top:0}
 .samples button canvas{width:100%;height:100%;display:block}
 .samples button.on{border-color:var(--acc)}
 input[type=range]{width:100%;accent-color:var(--acc)}
+.crowns button canvas{image-rendering:pixelated;width:100%;height:auto;padding:6px}
+.parade{position:relative;margin:6px 0 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.parade:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--bg),rgba(10,10,10,0) 10%,rgba(10,10,10,0) 90%,var(--bg))}
+.parade canvas{display:block;width:100%;height:112px}
+.xcard{position:relative;margin-top:16px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:#0c0c0c}
+.xbn{height:64px;background:linear-gradient(120deg,#ff5c30,#6e2210 60%,#1a0a05);background-size:200% 100%}
+.xcard canvas{position:absolute;left:16px;top:28px;width:76px;height:76px;border-radius:50%;border:4px solid #0c0c0c;image-rendering:auto}
+.xmeta{padding:14px 16px 14px 108px;min-height:66px}
+.xmeta b{display:block;font:700 15px var(--mono)}
+.xmeta span{display:block;color:var(--mute);font-size:12px}
+.xmeta .xcode{color:var(--acc);margin-top:2px}
 .code{margin-top:18px;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;padding:6px;background:var(--acc);border-radius:4px;max-width:340px}
 .code i{aspect-ratio:1;background:var(--acc);outline:1px solid rgba(0,0,0,.08)}
 .code i.on{background:var(--accl)}
@@ -182,6 +193,7 @@ footer .fl{display:flex;gap:18px}
   </div>
   <div class="stage"><canvas id="demo" width="320" height="320" aria-label="a creature wearing the hat; its band shows a code"></canvas><small>every hat carries a different code. tap it.</small></div>
 </header>
+<div class="parade" aria-hidden="true"><canvas id="parade" height="112"></canvas></div>
 <div class="wrap">
   <div class="panel stats">
     <div class="stat"><small>wearing the hat</small><b data-k="wearing">—</b></div>
@@ -198,18 +210,21 @@ footer .fl{display:flex;gap:18px}
     <div class="panel">
       <div class="canvasbox" id="mkbox"><canvas id="mk" width="800" height="800" aria-label="your picture with the hat"></canvas><div class="circle"><canvas id="mkc" width="200" height="200"></canvas></div></div>
       <p class="hint">Drag to move your picture under the hat. The hat stays put so it can be read.</p>
+      <div class="xcard" aria-label="how it looks on a profile"><div class="xbn"></div><canvas id="xpfp" width="160" height="160"></canvas><div class="xmeta"><b>you</b><span>@you · wearing the hat</span><span id="xcode" class="xcode">band not stamped yet</span></div></div>
     </div>
     <div class="panel">
       <label class="f" for="file">1 · your picture</label>
       <div class="row"><label class="btn line" for="file" style="cursor:pointer">upload</label><input type="file" id="file" accept="image/*" hidden><span class="hint" style="margin:0">or use one of ours</span></div>
       <div class="samples" id="samples" style="margin-top:10px"></div>
-      <label class="f" for="zoom">2 · size</label>
+      <label class="f">2 · the hat</label>
+      <div class="samples crowns" id="crowns"></div>
+      <label class="f" for="zoom">3 · size</label>
       <input type="range" id="zoom" min="100" max="300" value="100" aria-label="picture size">
-      <label class="f" for="mw">3 · the wallet that holds $HAT</label>
+      <label class="f" for="mw">4 · the wallet that holds $HAT</label>
       <input class="in" id="mw" placeholder="your Solana wallet" autocomplete="off" spellcheck="false">
       <div class="code" id="codegrid" aria-label="your code"></div>
       <p class="hint" id="codehint">Paste your wallet to stamp its code into the band.</p>
-      <div class="row" style="margin-top:18px"><button class="btn acc" id="save" type="button" disabled>save my hat pfp</button></div>
+      <div class="row" style="margin-top:18px"><button class="btn acc" id="save" type="button" disabled>save my hat pfp</button><a class="btn line" id="share" href="https://x.com/intent/post?text=I%27m%20wearing%20the%20hat.%20hatsol.vercel.app" target="_blank" rel="noopener" aria-disabled="true">post it</a></div>
       <p class="hint">Set the saved file as your X pfp as it is. A small crop is fine; filters and stickers erase the code.</p>
     </div>
   </div>
@@ -353,8 +368,13 @@ var HAT = [
  "OsWWWWWWWWWWWWWWWWWWWWsO",
  "OOsWWWWWWWWWWWWWWWWWWsOO",
  "..OOOOOOOOOOOOOOOOOOOO.."];
-var HC = { O: "#3a3632", W: "#f4f1ea", h: "#ffffff", s: "#d6d0c6", B: "#ff5c30" }, ON = "#ffbaa0", OFF = "#ff5c30";
-function drawHat(x, x0, y0, p, bits, shadow) {
+var CROWNS = {
+  cream: { O: "#3a3632", W: "#f4f1ea", h: "#ffffff", s: "#d6d0c6", B: "#ff5c30" },
+  ink: { O: "#4a4a4e", W: "#1e1d21", h: "#3b3a40", s: "#121114", B: "#ff5c30" },
+  gold: { O: "#4a3208", W: "#f2b544", h: "#ffd987", s: "#c98a1e", B: "#ff5c30" } };
+var HC = CROWNS.cream, ON = "#ffbaa0", OFF = "#ff5c30";
+function drawHat(x, x0, y0, p, bits, shadow, pal) {
+  var P = pal || HC;
   var r, c, ch, k = 0;
   if (shadow) {
     x.fillStyle = "rgba(0,0,0," + shadow + ")";
@@ -362,7 +382,7 @@ function drawHat(x, x0, y0, p, bits, shadow) {
   }
   for (r = 0; r < HAT.length; r++) for (c = 0; c < 24; c++) {
     ch = HAT[r][c]; if (ch === ".") continue;
-    if (ch === "#") { x.fillStyle = bits ? (bits[k] ? ON : OFF) : OFF; k++; } else x.fillStyle = HC[ch];
+    if (ch === "#") { x.fillStyle = bits ? (bits[k] ? ON : OFF) : OFF; k++; } else x.fillStyle = P[ch];
     x.fillRect(x0 + c * p, y0 + r * p, p, p);
   }
 }
@@ -392,21 +412,21 @@ function drawCreature(x, n, p, ox, oy, body, bg, look, round) {
 (function () { var c = $("#logo"), x = c.getContext("2d"); drawHat(x, 0, 0, 1, null); })();
 
 /* ---------- hero demo: the band flickers through codes ---------- */
-var demo = $("#demo"), dx = demo.getContext("2d"), dBody = 0, dBits = null, dLook = [1, -1];
+var demo = $("#demo"), dx = demo.getContext("2d"), dBody = 0, dBits = null, dLook = [1, -1], dCrown = 0, dBob = 0, CN = ["cream", "gold", "ink"];
 function rndBits() { var b = []; for (var i = 0; i < 30; i++) b.push(Math.random() < 0.5 ? 1 : 0); return b; }
 function drawDemo() {
   dx.clearRect(0, 0, 320, 320);
   var n = 26, p = 10, ox = (320 - n * p) / 2, oy = 52;
   dx.fillStyle = "#f4f1ea"; dx.beginPath(); dx.arc(160, oy + n * p / 2, n * p / 2 + 6, 0, Math.PI * 2); dx.fill();
   drawCreature(dx, n, p, ox, oy, BODIES[dBody][0], BODIES[dBody][1], dLook, true);
-  drawHat(dx, 160 - 12 * 7, oy + Math.round(n * 0.40) * p - 13 * 7, 7, dBits, 0.55);
+  drawHat(dx, 160 - 12 * 7, oy + Math.round(n * 0.40) * p - 13 * 7 - Math.round(dBob) * 7, 7, dBits, 0.55, CROWNS[CN[dCrown]]);
 }
 dBits = rndBits(); drawDemo();
-demo.addEventListener("click", function () { dBody = (dBody + 1) % BODIES.length; dBits = rndBits(); dLook = [Math.round(Math.random() * 2 - 1), Math.round(Math.random() * 2 - 1)]; drawDemo(); drawBand(); });
-if (!still) setInterval(function () { if (document.hidden) return; var i = Math.floor(Math.random() * 30); dBits[i] = 1 - dBits[i]; drawDemo(); if (!MK.bits) drawBand(); }, 260);
+demo.addEventListener("click", function () { dBody = (dBody + 1) % BODIES.length; dCrown = (dCrown + 1) % 3; dBob = 3; dBits = rndBits(); dLook = [Math.round(Math.random() * 2 - 1), Math.round(Math.random() * 2 - 1)]; drawDemo(); drawBand(); });
+if (!still) setInterval(function () { if (document.hidden) return; var i = Math.floor(Math.random() * 30); dBits[i] = 1 - dBits[i]; if (dBob > 0) dBob = Math.max(0, dBob - 1); drawDemo(); if (!MK.bits) drawBand(); }, 160);
 
 /* ---------- the maker ---------- */
-var MK = { img: null, ox: 0, oy: 0, z: 1, bits: null, hex: null, sample: 0 };
+var MK = { img: null, ox: 0, oy: 0, z: 1, bits: null, hex: null, sample: 0, crown: "cream" };
 var mk = $("#mk"), mx = mk.getContext("2d"), mkc = $("#mkc"), mcx = mkc.getContext("2d");
 function sampleCanvas(i) {
   var c = document.createElement("canvas"); c.width = c.height = 800; var x = c.getContext("2d");
@@ -420,8 +440,10 @@ function drawMaker() {
   var k = Math.max(800 / iw, 800 / ih) * MK.z, w = iw * k, h = ih * k;
   MK.ox = Math.min(0, Math.max(800 - w, MK.ox)); MK.oy = Math.min(0, Math.max(800 - h, MK.oy));
   mx.imageSmoothingEnabled = true; mx.drawImage(im, MK.ox, MK.oy, w, h);
-  drawHat(mx, 208, 24, 16, MK.bits, 0.45);
+  drawHat(mx, 208, 24, 16, MK.bits, 0.45, CROWNS[MK.crown]);
   mcx.clearRect(0, 0, 200, 200); mcx.drawImage(mk, 0, 0, 200, 200);
+  var xc = $("#xpfp"); if (xc) xc.getContext("2d").drawImage(mk, 0, 0, xc.width, xc.height);
+  var xcode = $("#xcode"); if (xcode) xcode.textContent = MK.hex ? "band " + MK.hex.match(/../g).join(" ") : "band not stamped yet";
   $("#save").disabled = !MK.bits;
 }
 function centre() {
@@ -474,9 +496,43 @@ $("#save").addEventListener("click", function () {
     if (!b) { toast("couldn't save, try another browser"); return; }
     var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "hat-pfp-" + MK.hex + ".png"; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); toast("saved. set it as your X pfp");
+    var sh = $("#share"); sh.removeAttribute("aria-disabled");
   }, "image/png");
 });
+(function () {
+  var box = $("#crowns");
+  ["cream", "ink", "gold"].forEach(function (k, i) {
+    var bt = document.createElement("button"); bt.type = "button"; bt.setAttribute("aria-label", k + " hat"); bt.dataset.crown = k;
+    var c = document.createElement("canvas"); c.width = 24; c.height = 16; drawHat(c.getContext("2d"), 0, 0, 1, null, 0, CROWNS[k]); bt.appendChild(c);
+    bt.addEventListener("click", function () { MK.crown = k; drawMaker(); [].forEach.call(box.children, function (e) { e.classList.toggle("on", e.dataset.crown === k); }); });
+    if (!i) bt.classList.add("on"); box.appendChild(bt);
+  });
+})();
 centre(); drawMaker();
+
+/* ---------- the parade: hats on the timeline ---------- */
+(function () {
+  var cv = $("#parade"); if (!cv) return; var x = cv.getContext("2d"), W = 0, H = 112, walkers = [], t0 = 0;
+  function size() { W = cv.width = Math.max(320, cv.clientWidth); cv.height = H; }
+  function walker(i) { return { b: i % BODIES.length, c: CN[i % 3], look: [i % 3 - 1, i % 2 ? -1 : 1], bits: rndBits(), ph: i * 1.7 }; }
+  size(); addEventListener("resize", size);
+  for (var i = 0; i < 18; i++) walkers.push(walker(i));
+  var gap = 104, total = walkers.length * gap;
+  function frame(t) {
+    x.clearRect(0, 0, W, H);
+    var off = still ? 0 : t / 28;
+    walkers.forEach(function (w, i) {
+      var px = Math.round((((i * gap - off) % total) + total) % total - gap), bob = still ? 0 : (Math.sin(t / 180 + w.ph) > 0.6 ? 1 : 0);
+      if (px > W + gap) return;
+      var n = 14, p = 4, oy = 40 - bob * 2;
+      x.fillStyle = "#f4f1ea"; x.beginPath(); x.arc(px + n * p / 2, oy + n * p / 2, n * p / 2 + 3, 0, Math.PI * 2); x.fill();
+      drawCreature(x, n, p, px, oy, BODIES[w.b][0], BODIES[w.b][1], w.look, true);
+      drawHat(x, px + n * p / 2 - 12 * 2, oy + Math.round(n * 0.4) * p - 13 * 2 - bob * 2, 2, w.bits, 0.5, CROWNS[w.c]);
+    });
+  }
+  if (still) { frame(0); return; }
+  var last = 0; (function loop(t) { if (!document.hidden && t - last > 40) { frame(t); last = t; } requestAnimationFrame(loop); })(0);
+})();
 
 /* ---------- the band explainer ---------- */
 var bb = $("#bandbig"), bx = bb.getContext("2d");
