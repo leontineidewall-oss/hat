@@ -25,3 +25,5 @@ Static page (index.html) plus Vercel functions in api/. The hat's band carries a
 - /api/round (header x-round-key): checks every wearer again and returns who gets what from the fee wallet
 - /api/vault: fee wallet balance and its last 30 transactions
 - /api/market: price and market cap from DexScreener
+
+Live at hatsol.vercel.app
